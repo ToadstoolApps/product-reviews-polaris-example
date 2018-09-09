@@ -1,13 +1,14 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import {AppProvider} from '@shopify/polaris';
 
 import ReviewList from './routes/ReviewList';
 import ReviewDetails from './routes/ReviewDetails';
 import Settings from './routes/Settings';
 import NotFound from './routes/NotFound';
+import Install from './routes/Install';
 
 import '@shopify/polaris/styles.css';
 
@@ -30,7 +31,11 @@ function App() {
             <Route exact path="/" component={ReviewList} />
             <Route path="/reviews/:id" component={ReviewDetails} />
             <Route exact path="/settings" component={Settings} />
-            <Route component={NotFound} />
+            <Route exact path="/install" component={Install} />
+            <Route exact path="/404" component={NotFound} />
+            <Route>
+              <Redirect to="/404" />
+            </Route>
           </Switch>
         </Router>
       </ApolloProvider>

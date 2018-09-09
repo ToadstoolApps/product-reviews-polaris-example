@@ -1,20 +1,4 @@
-import koa from 'koa';
-import koaRouter from 'koa-router';
-import koaBody from 'koa-bodyparser';
-import serve from 'koa-static';
-import mount from 'koa-mount';
-import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 import { makeExecutableSchema } from 'graphql-tools';
-import path from 'path';
-
-/* eslint-disable babel/new-cap */
-const app = new koa();
-const router = new koaRouter();
-/* eslint-enable babel/new-cap */
-
-require('dotenv').config();
-
-const PORT = process.env.NODE_ENV === 'production' ? 3000 : 3001;
 
 const typeDefs = `
   type Product {
@@ -124,16 +108,3 @@ export const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
-
-router.post('/graphql', koaBody(), graphqlKoa({ schema }));
-router.get('/graphql', graphqlKoa({ schema }));
-
-router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }));
-
-app.use(router.routes());
-app.use(router.allowedMethods());
-if (process.env.NODE_ENV === 'production') {
-  console.log('production build ready on port: ', PORT);
-  app.use(serve(path.join(__dirname, '../build/client/')));
-}
-app.listen(PORT);
