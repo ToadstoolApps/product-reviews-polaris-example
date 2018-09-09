@@ -55,9 +55,9 @@ function ReviewDetails(props) {
 
   const badge =
     review.status === 'published' ? (
-      <Badge>Published</Badge>
+      <Badge status="success">Published</Badge>
     ) : (
-      <Badge>Unpublished</Badge>
+      <Badge status="attention">Unpublished</Badge>
     );
 
   return (
@@ -66,17 +66,17 @@ function ReviewDetails(props) {
       breadcrumbs={[{content: 'All reviews', url: '/'}]}
     >
       <Card title="Review" sectioned>
-        {/*
-        This is the main content of our review details card.
-        We will be introducing a stack component here to lay this content out.*/}
-
-        {/*
-        <Avatar customer name={review.customer.name} />
-        <p>{review.customer.name}</p>
-        {badge}
-        <Rating value={review.rating} />
-        <p>{review.content}</p>
-        */}
+        <Stack vertical>
+          <Stack alignment="center">
+            <Avatar customer name={review.customer.name} />
+            <Stack.Item fill>
+              <p>{review.customer.name}</p>
+            </Stack.Item>
+            {badge}
+          </Stack>
+          <Rating value={review.rating} />
+          <p>{review.content}</p>
+        </Stack>
       </Card>
 
       <Card>
