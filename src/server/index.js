@@ -26,26 +26,28 @@ const PORT = NODE_ENV === 'production' ? 3000 : 3001;
 app.keys = [SHOPIFY_APP_SECRET];
 app.use(session(app));
 
-app.use(
-	shopifyAuth({
-		apiKey: SHOPIFY_APP_KEY,
-		secret: SHOPIFY_APP_SECRET,
-		// our app's permissions
-		scopes: ['write_products', 'read_products', 'read_orders', 'write_orders'],
-		// our own custom logic after authentication has completed
-		afterAuth(ctx) {
-			const { shop, accessToken } = ctx.session;
-			//console.log('We did it!', shop, accessToken);
-			ctx.redirect('/');
-		},
-	}),
-);
+if (NODE_ENV === 'production') {
+  app.use(
+    shopifyAuth({
+      apiKey: SHOPIFY_APP_KEY,
+      secret: SHOPIFY_APP_SECRET,
+      // our app's permissions
+      scopes: ['write_products', 'read_products', 'read_orders', 'write_orders'],
+      // our own custom logic after authentication has completed
+      afterAuth(ctx) {
+        const { shop, accessToken } = ctx.session;
+        //console.log('We did it!', shop, accessToken);
+        ctx.redirect('/');
+      },
+    }),
+  );
 
-app.use(views(path.join(__dirname, '../../public'), { extension: 'ejs' }));
-app.use(mount('/install', async (ctx, next) => { await ctx.render('install'); }));
+  app.use(views(path.join(__dirname, '../../public'), { extension: 'ejs' }));
+  app.use(mount('/install', async (ctx, next) => { await ctx.render('install'); }));
 
-// secure all middleware after this line
-app.use(verifyRequest({fallbackRoute: "/install"}));
+  // secure all middleware after this line
+  app.use(verifyRequest({fallbackRoute: "/install"}));
+}
 
 router.post('/graphql', koaBody(), graphqlKoa({ schema }));
 router.get('/graphql', graphqlKoa({ schema }));
