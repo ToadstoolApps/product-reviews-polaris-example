@@ -1,8 +1,8 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost';
-import {ApolloProvider} from 'react-apollo';
-import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
-import {AppProvider} from '@shopify/polaris';
+import { ApolloProvider } from 'react-apollo';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import { AppProvider } from '@shopify/polaris';
 
 import ReviewList from './routes/ReviewList';
 import ReviewDetails from './routes/ReviewDetails';
@@ -14,7 +14,7 @@ import '@shopify/polaris/styles.css';
 
 const client = new ApolloClient();
 
-const CustomLinkComponent = ({children, url, ...rest}) => {
+const CustomLinkComponent = ({ children, url, ...rest }) => {
   return (
     <Link to={url} {...rest}>
       {children}

@@ -37,6 +37,7 @@
     "graphql-tag": "^2.8.0",
     "graphql-tools": "^2.24.0",
     "html-webpack-plugin": "2.29.0",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "20.0.4",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
@@ -89,7 +90,28 @@
     "test": "node scripts/test.js --env=jsdom"
   },
   "homepage": ".",
-  "proxy": "http://localhost:3001",
+  "proxy": {
+    "/": {
+      "target": "http://localhost:3001",
+      "ws": true
+    },
+    "/graphql": {
+      "target": "http://localhost:3001",
+      "ws": true
+    },
+    "/graphiql": {
+      "target": "http://localhost:3001",
+      "ws": true
+    },
+    "/auth": {
+      "target": "http://localhost:3001",
+      "ws": true
+    },
+    "/shopify": {
+      "target": "http://localhost:3001",
+      "ws": true
+    }
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
